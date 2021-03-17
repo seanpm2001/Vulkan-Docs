@@ -24,22 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     container: khronosgroup/docker-images:asciidoctor-spec
     steps:
-      # Should place this under $GITHUB_WORKSPACE/vulkan, now
       - uses: actions/checkout@v2
-        with:
-          path: vulkan
       - name: Curdir
         run: |
-          echo checkout.Curdir: in directory
-          pwd
-          echo GITHUB_WORKSPACE is
-          printenv GITHUB_WORKSPACE
-          echo Contents of $GITHUB_WORKSPACE are
-          ls $GITHUB_WORKSPACE
-          cp -rp $GITHUB_WORKSPACE /root/vulkan
-          # ln -s $GITHUB_WORKSPACE /root/vulkan
-          echo "Copied $GITHUB_WORKSPACE -> /root/vulkan"
-          ls /root/vulkan
+          echo checkout.Curdir: in directory `pwd`, contents are
+          ls *
 
   build:
     runs-on: ubuntu-latest
@@ -52,9 +41,8 @@ jobs:
 
       - name: Curdir
         run: |
-          echo build.Curdir: in directory ; pwd ; ls
-          echo Contents of /root/vulkan are
-          ls /root/vulkan
+          echo build.Curdir: in directory `pwd`, contents are
+          ls *
 
       - name: REUSE license checker
         run: |
