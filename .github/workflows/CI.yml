@@ -24,13 +24,18 @@ jobs:
     runs-on: ubuntu-latest
     container: khronosgroup/docker-images:asciidoctor-spec
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Should place this under $GITHUB_WORKSPACE/vulkan, now
       - uses: actions/checkout@v2
+        with:
+          path: vulkan
       - name: Curdir
         run: |
           echo checkout.Curdir: in directory
           pwd
-          ls
+          echo GITHUB_WORKSPACE is
+          printenv GITHUB_WORKSPACE
+          echo Contents of $GITHUB_WORKSPACE are
+          ls $GITHUB_WORKSPACE
 
   build:
     runs-on: ubuntu-latest
