@@ -8,6 +8,10 @@
 
 name: CI
 
+defaults:
+  run:
+    working-directory: /tmp
+
 # Controls when the action will run.
 on:
   # Triggers the workflow on push or manual dispatch
@@ -16,23 +20,34 @@ on:
   workflow_dispatch:
 
 jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    container: khronosgroup/docker-images:asciidoctor-spec
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Curdir
+        run: |
+          echo checkout.Curdir: in directory
+          pwd
+          ls
+
   build:
     runs-on: ubuntu-latest
     container: khronosgroup/docker-images:asciidoctor-spec
-
+    needs: checkout
     steps:
       #  Unfortunately, asciidoctor-pdf gets pathname-specific errors
       # building under the usual $GITHUB_WORKSPACE (/__w). As a workaround,
       # generate the outputs in /tmp.
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Curdir
+        run: |
+          echo build.Curdir: in directory
+          pwd
+          ls
 
       - name: REUSE license checker
-        run: |
-          reuse lint
-
-      - name: Check for non-tagged use of 'undefined' in spec sources
         run: |
           reuse lint
 
