@@ -10,7 +10,7 @@ name: CI
 
 defaults:
   run:
-    working-directory: /tmp
+    working-directory: /root/vulkan
 
 # Controls when the action will run.
 on:
@@ -36,6 +36,8 @@ jobs:
           printenv GITHUB_WORKSPACE
           echo Contents of $GITHUB_WORKSPACE are
           ls $GITHUB_WORKSPACE
+          ln -s $GITHUB_WORKSPACE /root/vulkan
+          echo "Created /root/vulkan as link to $GITHUB_WORKSPACE"
 
   build:
     runs-on: ubuntu-latest
