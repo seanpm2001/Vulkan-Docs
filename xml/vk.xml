@@ -18560,7 +18560,6 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <enum offset="3" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_EXT"/>
                 <enum offset="4" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"/>
                 <enum offset="5" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"/>
-                <enum offset="0" extends="VkPresentModeKHR"             name="VK_PRESENT_MODE_FIFO_LATEST_READY_EXT"/>
                 <enum bitpos="4" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT"/>
                 <enum bitpos="5" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT"/>
                 <enum offset="0" extends="VkTimeDomainEXT"              name="VK_TIME_DOMAIN_SWAPCHAIN_LOCAL_EXT"/>
