@@ -62,15 +62,6 @@ The sname:VkAbsolutePresentTimeEXT structure is defined as:
 
 include::{generated}/api/structs/VkAbsolutePresentTimeEXT.adoc[]
 
-  * pname:presentID is an application-provided identification value.
-    If non-zero, flink:vkGetPastPresentationTimingEXT will return a
-    slink:VkPastPresentationTimingEXT struct with the timing information
-    associated with the present to the associated swapchain for this
-    call to flink:vkQueuePresentKHR, including this value being in the
-    pname:presentID member of the slink:VkPastPresentationTimingEXT
-    struct.
-    In order to be useful to the application, it should: be unique within
-    some period of time that is meaningful to the application.
   * pname:targetPresentTime, if non-zero, specifies the earliest time the
     application wants the image to be displayed to the user.
     pname:targetPresentTime is a time in nanoseconds, according to the
@@ -97,11 +88,6 @@ If pname:targetPresentTime is non-zero, the presentation engine should:
 not display the image to the user at a time earlier than
 (pname:targetPresentTime - pname:presentSlop).
 
-Setting pname:targetPresentTime to zero is useful when the application
-desires to provide a non-zero pname:presentID in order to get back timing
-information from flink:vkGetPastPresentationTimingEXT, but does not wish
-to set a pname:targetPresentTime.
-
 Providing a pname:presentSlop enables the application to indicate to the
 presentation engine to display the image within this period if a vertical
 blanking period occurs on FRR displays.
@@ -126,15 +112,6 @@ The sname:VkRelativePresentTimeEXT structure is defined as:
 
 include::{generated}/api/structs/VkRelativePresentTimeEXT.adoc[]
 
-  * pname:presentID is an application-provided identification value.
-    If non-zero, flink:vkGetPastPresentationTimingEXT will return a
-    slink:VkPastPresentationTimingEXT struct with the timing information
-    associated with the present to the associated swapchain for this
-    call to flink:vkQueuePresentKHR, including this value being in the
-    pname:presentID member of the slink:VkPastPresentationTimingEXT
-    struct.
-    In order to be useful to the application, it should: be unique within
-    some period of time that is meaningful to the application.
   * pname:minPresentDuration, if non-zero, specifies the minimum duration
     in nanoseconds the application wants the image to be displayed to the
     user.
@@ -159,11 +136,6 @@ include::{generated}/api/structs/VkRelativePresentTimeEXT.adoc[]
 If pname:minPresentDuration is non-zero, the presentation engine should:
 display the image to the user for a minimum duration of
 (pname:minPresentDuration - pname:presentSlop) nanoseconds.
-
-Setting pname:minPresentDuration to zero is useful when the application
-desires to provide a non-zero pname:presentID in order to get back timing
-information from flink:vkGetPastPresentationTimingEXT, but does not wish
-to set a pname:minPresentDuration.
 
 Providing a pname:presentSlop enables the application to indicate to the
 presentation engine to display the image within this period if a vertical

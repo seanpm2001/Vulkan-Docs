@@ -3131,7 +3131,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
         <type category="struct" name="VkPastPresentationTimingEXT">
             <member values="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"><type>VkStructureType</type> <name>sType</name></member>
 	    <member optional="true">const <type>void</type>*      <name>pNext</name></member>
-            <member><type>uint32_t</type>                         <name>presentID</name><comment>Application-provided identifier, previously given to vkQueuePresentKHR</comment></member>
+            <member><type>uint64_t</type>                         <name>presentId</name><comment>Application-provided identifier, previously given to vkQueuePresentKHR</comment></member>
             <member><type>uint64_t</type>                         <name>targetPresentTime</name><comment>Earliest time an image should have been presented, previously given to vkQueuePresentKHR</comment></member>
             <member><type>uint64_t</type>                         <name>actualPresentTime</name><comment>Time the image was actually displayed</comment></member>
             <member><type>uint64_t</type>                         <name>optimalPresentTime</name><comment>Time when the PE would have liked the application to have set targetPresentTime to</comment></member>
@@ -3145,13 +3145,11 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member len="swapchainCount" optional="true">const <type>VkPresentTimeEXT</type>*   <name>pTimes</name><comment>When to present images</comment></member>
         </type>
         <type category="struct" name="VkAbsolutePresentTimeEXT">
-            <member><type>uint32_t</type>                         <name>presentID</name><comment>Application-provided identifier</comment></member>
             <member><type>uint64_t</type>                         <name>targetPresentTime</name><comment>Earliest time an image should be presented</comment></member>
             <member><type>uint64_t</type>                         <name>idealPresentTime</name><comment>Indication to PE of what the application would like targetPresentTime to have been</comment></member>
             <member><type>uint64_t</type>                         <name>presentSlop</name><comment>Period of time an image may be presented before targetPresentTime</comment></member>
         </type>
         <type category="struct" name="VkRelativePresentTimeEXT">
-            <member><type>uint32_t</type>                         <name>presentID</name><comment>Application-provided identifier</comment></member>
             <member><type>uint64_t</type>                         <name>minPresentDuration</name><comment>Shortest duration an image should be presented</comment></member>
             <member><type>uint64_t</type>                         <name>idealPresentDuration</name><comment>Indication to PE of what the application would like minPresentDuration to be</comment></member>
             <member><type>uint64_t</type>                         <name>presentSlop</name><comment>Period of time an image may be presented before minPresentDuration elapses</comment></member>
@@ -18545,7 +18543,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <command name="vkSignalSemaphoreKHR"/>
             </require>
         </extension>
-        <extension name="VK_EXT_present_timing" number="209" type="device" author="KHR" contact="Ian Elliott @ianelliott" supported="vulkan">
+        <extension name="VK_EXT_present_timing" number="209" type="device" depends="VK_KHR_swapchain,VK_KHR_present_id" author="KHR" contact="Ian Elliott @ianelliott" supported="vulkan">
             <require>
                 <enum value="1"                                         name="VK_EXT_PRESENT_TIMING_SPEC_VERSION"/>
                 <enum value="&quot;VK_EXT_present_timing&quot;"         name="VK_EXT_PRESENT_TIMING_EXTENSION_NAME"/>

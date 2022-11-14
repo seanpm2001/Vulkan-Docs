@@ -285,11 +285,12 @@ include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
 
   * pname:sType is the type of this structure.
   * pname:pNext is `NULL` or a pointer to an extension-specific structure.
-  * pname:presentID is an application-provided value that was given to a
+  * pname:presentId is an application-provided value that was given to a
     previous fname:vkQueuePresentKHR command via
-    slink:VkPresentTimeEXT::pname:presentID.
+    slink:VkPresentIdKHR::pname:pPresentIds.
     It can: be used to uniquely identify a previous present with the
-    flink:vkQueuePresentKHR command.
+    flink:vkQueuePresentKHR command. If no slink:VkPresentIdKHR was provided
+    or if the specified present id value was zero, pname:presentId is zero.
   * pname:targetPresentTime is an application-provided value that was given
     to a previous flink:vkQueuePresentKHR command via
     slink:VkPresentTimeEXT::pname:targetPresentTime.
@@ -331,7 +332,7 @@ include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
 
 include::{generated}/validity/structs/VkPastPresentationTimingEXT.adoc[]
 
-The results for a given pname:swapchain and pname:presentID are only
+The results for a given pname:swapchain and present id are only
 returned once from fname:vkGetPastPresentationTimingEXT.
 
 The application can: use the sname:VkPastPresentationTimingEXT values to
