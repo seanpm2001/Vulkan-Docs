@@ -565,6 +565,14 @@ ifdef::VK_EXT_image_compression_control_swapchain[]
     slink:VkImageCompressionControlEXT structure
 endif::VK_EXT_image_compression_control_swapchain[]
 endif::VK_EXT_image_compression_control[]
+ifdef::VK_EXT_present_timing[]
+  * If the <<features-presentAtAbsoluteTime, pname:presentAtAbsoluteTime>>
+    feature is not enabled, pname:flags must: not contain
+    ename:VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT
+  * If the <<features-presentAtRelativeTime, pname:presentAtRelativeTime>>
+    feature is not enabled, pname:flags must: not contain
+    ename:VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT
+endif::VK_EXT_present_timing[]
 ****
 
 include::{generated}/validity/structs/VkSwapchainCreateInfoKHR.adoc[]

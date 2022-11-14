@@ -3112,6 +3112,13 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member optional="true"><type>void</type>*            <name>pNext</name></member>
             <member><type>VkBool32</type>                         <name>presentWait</name><comment>vkWaitForPresentKHR is supported</comment></member>
         </type>
+        <type category="struct" name="VkPhysicalDevicePresentTimingFeaturesEXT" structextends="VkPhysicalDeviceFeatures2,VkDeviceCreateInfo">
+            <member values="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"><type>VkStructureType</type> <name>sType</name></member>
+            <member optional="true"><type>void</type>*            <name>pNext</name></member>
+            <member><type>VkBool32</type>                         <name>presentTiming</name><comment>vkGetPastPresentationTimingEXT is supported</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtAbsoluteTime</name><comment>VkAbsolutePresentTimeEXT can be used to specify present time</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtRelativeTime</name><comment>VkRelativePresentTimeEXT can be used to specify present time</comment></member>
+        </type>
         <type category="struct" name="VkSwapchainTimingPropertiesEXT">
             <member values="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_PROPERTIES_EXT"><type>VkStructureType</type> <name>sType</name></member>
             <member optional="true">const <type>void</type>*      <name>pNext</name></member>
@@ -18552,10 +18559,12 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <enum offset="2" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_INFO_EXT"/>
                 <enum offset="3" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_EXT"/>
                 <enum offset="4" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"/>
+                <enum offset="5" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"/>
                 <enum offset="0" extends="VkPresentModeKHR"             name="VK_PRESENT_MODE_FIFO_LATEST_READY_EXT"/>
                 <enum bitpos="4" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT"/>
                 <enum bitpos="5" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT"/>
                 <enum offset="0" extends="VkTimeDomainEXT"              name="VK_TIME_DOMAIN_SWAPCHAIN_LOCAL_EXT"/>
+                <type name="VkPhysicalDevicePresentTimingFeaturesEXT"/>
                 <type name="VkSwapchainTimingPropertiesEXT"/>
                 <type name="VkSwapchainTimeDomainPropertiesEXT"/>
                 <type name="VkSwapchainTimingInfoEXT"/>
