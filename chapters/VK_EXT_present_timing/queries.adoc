@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: CC-BY-4.0
 
-== Present/Display Timing Queries
+== Present Timing Queries
 
 Traditional game and real-time-animation applications frequently use
 ename:VK_PRESENT_MODE_FIFO_KHR so that presentable images are updated during
@@ -17,7 +17,7 @@ accurately positioned for when that image will be displayed.
 The geometry may appear to move too little some RCs, and too much for
 others.
 Sometimes the animation appears to freeze, when the same image is used for
-more than one RC.
+more RCs than other images.
 
 In order to minimize stuttering, an application needs to: 1) render
 and present images at a consistent rate that is a multiple of the
@@ -77,7 +77,8 @@ The sname:VkSwapchainTimingPropertiesEXT structure is defined as:
 include::{generated}/api/structs/VkSwapchainTimingPropertiesEXT.adoc[]
 
   * pname:sType is the type of this structure.
-  * pname:pNext is `NULL` or a pointer to an extension-specific structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
   * pname:refreshDuration is zero; or is an indication of the duration
     of a refresh cycle.
     If the presentation engine is operating as an FRR display, this is the
@@ -192,7 +193,8 @@ The sname:VkSwapchainTimeDomainPropertiesEXT structure is defined as:
 include::{generated}/api/structs/VkSwapchainTimeDomainPropertiesEXT.adoc[]
 
   * pname:sType is the type of this structure.
-  * pname:pNext is `NULL` or a pointer to an extension-specific structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
   * pname:timeDomain is a elink:VkTimeDomainEXT value representing a time
     domain that is available for the swapchain.
 
@@ -224,7 +226,8 @@ The sname:VkSwapchainTimingInfoEXT structure is defined as:
 include::{generated}/api/structs/VkSwapchainTimingInfoEXT.adoc[]
 
   * pname:sType is the type of this structure.
-  * pname:pNext is `NULL` or a pointer to an extension-specific structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
   * pname:timeDomain is a elink:VkTimeDomainEXT value representing the time
     domain that should be used with the swapchain.
 
@@ -264,7 +267,8 @@ pname:pPresentationTimingCount.
 Otherwise, pname:pPresentationTimingCount must: point to a variable set by
 the user to the number of elements in the pname:pPresentationTimings array,
 and on return the variable is overwritten with the number of structures
-actually written to pname:pPresentationTimings.
+actually written to pname:pPresentationTimings. Elements of
+pname:pPresentationTimings are arranged in ascending order of present ids.
 If the value of pname:pPresentationTimingCount is less than the number of
 newly-available timing records, at most pname:pPresentationTimingCount
 structures will be written.
@@ -284,7 +288,8 @@ The sname:VkPastPresentationTimingEXT structure is defined as:
 include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
 
   * pname:sType is the type of this structure.
-  * pname:pNext is `NULL` or a pointer to an extension-specific structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
   * pname:presentId is an application-provided value that was given to a
     previous fname:vkQueuePresentKHR command via
     slink:VkPresentIdKHR::pname:pPresentIds.
@@ -429,12 +434,6 @@ swapchains created with the following present modes:
     sname:VkPastPresentationTimingEXT may: be treated as if the image was
     displayed at the start of the vertical blanking period, or may: be
     treated the same as for ename:VK_PRESENT_MODE_IMMEDIATE_KHR.
-  * ename:VK_PRESENT_MODE_FIFO_LATEST_READY_EXT.
-    Tearing cannot be observed.
-    Starting in queue order, successive images are dequeued when both:
-    1) its associated wait semaphore(s) have signaled, and 2) its
-    target present time is less-than or equal-to the current time.
-    The last of the successive images that are dequeued is presented.
 endif::VK_EXT_present_timing[]
 
 ifdef::VK_GOOGLE_display_timing[]

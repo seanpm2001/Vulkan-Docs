@@ -24,7 +24,8 @@ The sname:VkPresentTimesInfoEXT structure is defined as:
 include::{generated}/api/structs/VkPresentTimesInfoEXT.adoc[]
 
   * pname:sType is the type of this structure.
-  * pname:pNext is `NULL` or a pointer to an extension-specific structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
   * pname:swapchainCount is the number of swapchains being presented to by
     this command.
   * pname:pTimes is `NULL` or a pointer to an array of
@@ -47,11 +48,12 @@ include::{generated}/validity/structs/VkPresentTimesInfoEXT.adoc[]
 [open,refpage='VkPresentTimeEXT',desc='Specifying when an image should be presented',type='structs']
 --
 
-The sname:VkPresentTimeEXT union contains either a
-slink:VkAbsolutePresentTimeEXT or a slink:VkRelativePresentTimeEXT
-structure, defined as:
+The sname:VkPresentTimeEXT union is defined as:
 
 include::{generated}/api/structs/VkPresentTimeEXT.adoc[]
+
+  * pname:absolutePresentTime is a slink:VkAbsolutePresentTimeEXT structure.
+  * pname:relativePresentTime is a slink:VkRelativePresentTimeEXT structure.
 
 include::{generated}/validity/structs/VkPresentTimeEXT.adoc[]
 --
@@ -148,7 +150,7 @@ blanking period occurs on FRR displays.
 The pname:presentSlop is used to avoid unintentionally missing a vertical
 blanking period on FRR displays due to rounding errors or drift between
 clocks.
-A suggested value for pname:presentSlop is half the _Refresh Rate_.
+A suggested value for pname:presentSlop is half the _Refresh Cycle Duration_.
 ====
 
 include::{generated}/validity/structs/VkRelativePresentTimeEXT.adoc[]

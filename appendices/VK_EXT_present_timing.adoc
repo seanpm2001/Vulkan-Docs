@@ -4,6 +4,8 @@
 
 include::{generated}/meta/{refprefix}VK_EXT_present_timing.adoc[]
 
+=== Other Extension Metadata
+
 *Last Modified Date*::
     2022-11-10
 *Interactions and External Dependencies*::
@@ -25,6 +27,8 @@ include::{generated}/meta/{refprefix}VK_EXT_present_timing.adoc[]
   - Niklas Smedberg, Unity Technologies
   - Tobias Hector, AMD
 
+=== Description
+
 This device extension allows an application that uses the
 `apiext:VK_KHR_swapchain` extension to obtain information about the
 presentation engine's display, to obtain timing information about each
@@ -43,7 +47,6 @@ Applications also need to tell the presentation engine to display an image
 no sooner than a given time.
 This allows the application to avoid stuttering, so the animation looks
 smooth to the user.
-
 
 include::{generated}/interfaces/VK_EXT_present_timing.adoc[]
 
@@ -191,7 +194,7 @@ The first time (from the call till the image is presented) generally doesn’t
 matter, because the application will likely be providing a targetPresentTime
 (i.e. the application may have some indication for how long this will be).
 However, the latency between targetPresentTime until feedback is available may
-be much long.
+be much longer.
 For example, on Android on the 1st-generation Pixel phone (60Hz FRR display),
 the latency was approximately 5 refresh cycles (83.33ms).
 For higher-frequency displays, the latency may have a larger number of refresh

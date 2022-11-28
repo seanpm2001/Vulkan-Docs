@@ -3133,7 +3133,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
         <type category="struct" name="VkSwapchainTimingInfoEXT">
             <member values="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_INFO_EXT"><type>VkStructureType</type> <name>sType</name></member>
             <member optional="true">const <type>void</type>*      <name>pNext</name></member>
-            <member><type>VkTimeDomainEXT</type>                  <name>timeDomain</name><comment>Available time domain to use with the swapchain</comment></member>
+            <member><type>VkTimeDomainEXT</type>                  <name>timeDomain</name><comment>Time domain selected by the application to be used for the swapchain time values</comment></member>
         </type>
         <type category="struct" name="VkPastPresentationTimingEXT">
             <member values="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"><type>VkStructureType</type> <name>sType</name></member>
@@ -3161,7 +3161,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member><type>uint64_t</type>                         <name>idealPresentDuration</name><comment>Indication to PE of what the application would like minPresentDuration to be</comment></member>
             <member><type>uint64_t</type>                         <name>presentSlop</name><comment>Period of time an image may be presented before minPresentDuration elapses</comment></member>
         </type>
-        <type category="union" name="VkPresentTimeEXT" comment="// Union allowing specification of either absolute or relative present time. Actual value selected is based swapchain info.">
+        <type category="union" name="VkPresentTimeEXT" comment="// Union allowing specification of either absolute or relative present time. Actual value selected is based on swapchain info.">
             <member><type>VkAbsolutePresentTimeEXT</type>         <name>absolutePresentTime</name></member>
             <member><type>VkRelativePresentTimeEXT</type>         <name>relativePresentTime</name></member>
         </type>
