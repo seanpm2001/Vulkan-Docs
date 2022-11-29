@@ -3119,6 +3119,13 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member><type>VkBool32</type>                         <name>presentAtAbsoluteTime</name><comment>VkAbsolutePresentTimeEXT can be used to specify present time</comment></member>
             <member><type>VkBool32</type>                         <name>presentAtRelativeTime</name><comment>VkRelativePresentTimeEXT can be used to specify present time</comment></member>
         </type>
+        <type category="struct" name="VkPresentTimingSurfaceCapabilitiesEXT" structextends="VkSurfaceCapabilities2KHR">
+            <member values="VK_STRUCTURE_TYPE_PRESENT_TIMING_SURFACE_CAPABILITIES_EXT"><type>VkStructureType</type> <name>sType</name></member>
+            <member optional="true"><type>void</type>*            <name>pNext</name></member>
+            <member><type>VkBool32</type>                         <name>presentTimingSupported</name><comment>presentation timings of the surface can be queries using vkGetPastPresentationTimingEXT</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtAbsoluteTimeSupported</name><comment>surface can be presented using VkAbsolutePresentTimeEXT</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtRelativeTimeSupported</name><comment>surface can be presented using VkRelativePresentTimeEXT</comment></member>
+        </type>
         <type category="struct" name="VkSwapchainTimingPropertiesEXT">
             <member values="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_PROPERTIES_EXT"><type>VkStructureType</type> <name>sType</name></member>
             <member optional="true">const <type>void</type>*      <name>pNext</name></member>
@@ -18550,7 +18557,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <command name="vkSignalSemaphoreKHR"/>
             </require>
         </extension>
-        <extension name="VK_EXT_present_timing" number="209" type="device" depends="VK_KHR_swapchain,VK_KHR_present_id" author="KHR" contact="Ian Elliott @ianelliott" supported="vulkan">
+        <extension name="VK_EXT_present_timing" number="209" type="device" depends="VK_KHR_swapchain,VK_KHR_present_id,VK_KHR_get_surface_capabilities2" author="KHR" contact="Ian Elliott @ianelliott" supported="vulkan">
             <require>
                 <enum value="1"                                         name="VK_EXT_PRESENT_TIMING_SPEC_VERSION"/>
                 <enum value="&quot;VK_EXT_present_timing&quot;"         name="VK_EXT_PRESENT_TIMING_EXTENSION_NAME"/>
@@ -18560,10 +18567,12 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <enum offset="3" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_EXT"/>
                 <enum offset="4" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"/>
                 <enum offset="5" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"/>
+                <enum offset="6" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMING_SURFACE_CAPABILITIES_EXT"/>
                 <enum bitpos="4" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT"/>
                 <enum bitpos="5" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT"/>
                 <enum offset="0" extends="VkTimeDomainEXT"              name="VK_TIME_DOMAIN_SWAPCHAIN_LOCAL_EXT"/>
                 <type name="VkPhysicalDevicePresentTimingFeaturesEXT"/>
+                <type name="VkPresentTimingSurfaceCapabilitiesEXT"/>
                 <type name="VkSwapchainTimingPropertiesEXT"/>
                 <type name="VkSwapchainTimeDomainPropertiesEXT"/>
                 <type name="VkSwapchainTimingInfoEXT"/>

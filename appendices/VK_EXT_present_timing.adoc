@@ -11,6 +11,7 @@ include::{generated}/meta/{refprefix}VK_EXT_present_timing.adoc[]
 *Interactions and External Dependencies*::
   - This extension requires `apiext:VK_KHR_swapchain`
   - This extension requires `apiext:VK_KHR_present_id`
+  - This extension requires `apiext:VK_KHR_get_surface_capabilities2`
 *IP Status*::
     No known IP claims.
 *Contributors*::
