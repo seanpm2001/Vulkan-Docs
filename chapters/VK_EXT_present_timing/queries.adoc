@@ -52,7 +52,25 @@ rate (VRR) display technology, where each refresh cycle (RC) can vary in
 length.
 
 ifdef::VK_EXT_present_timing[]
-=======
+[open,refpage='VkSwapchainPresentTimingCreateInfoEXT',desc='Specify present timing properties to initialize a swapchain with',type='structs']
+--
+To enable present timing collection for a swapchain, add a
+sname:VkSwapchainPresentTimingCreateInfoEXT structure to the pname:pNext chain
+of slink:VkSwapchainCreateInfoKHR.
+
+The sname:VkSwapchainPresentTimingCreateInfoEXT structure is defined as:
+
+include::{generated}/api/structs/VkSwapchainPresentTimingCreateInfoEXT.adoc[]
+
+  * pname:sType is the type of this structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
+  * pname:presentTimingQueueSize is the size of the swapchain's internal
+    storage holding presentation timing results.
+
+include::{generated}/validity/structs/VkSwapchainPresentTimingCreateInfoEXT.adoc[]
+--
+
 [open,refpage='vkGetSwapchainTimingPropertiesEXT',desc='Obtain the display timing properties of the PE\'s display',type='protos']
 --
 
@@ -238,16 +256,18 @@ include::{generated}/validity/structs/VkSwapchainTimingInfoEXT.adoc[]
 [open,refpage='vkGetPastPresentationTimingEXT',desc='Obtain timing of a previously-presented image',type='protos']
 --
 
-The implementation will maintain a limited amount of history of timing
-information about previous presents.
+The implementation maintains a limited amount of history of timing
+information about previous presents, specified by 
+sname:VkSwapchainPresentTimingCreateInfoEXT::pname:presentTimingQueueSize
+when creating a swapchain.
 Because of the asynchronous nature of the presentation engine, the timing
-information for a given flink:vkQueuePresentKHR command will become
+information for a given flink:vkQueuePresentKHR command only becomes
 available some time later.
-These time values can be asynchronously queried, and will be returned if
+These time values should: be asynchronously queried, and are returned if
 available.
 All time values are in nanoseconds, according to the time-domain being used.
 
-To asynchronously query the presentation engine, for newly-available timing
+To asynchronously query the presentation engine for newly-available timing
 information about one or more previous presents to a given swapchain, call:
 
 include::{generated}/api/protos/vkGetPastPresentationTimingEXT.adoc[]
@@ -267,15 +287,19 @@ pname:pPresentationTimingCount.
 Otherwise, pname:pPresentationTimingCount must: point to a variable set by
 the user to the number of elements in the pname:pPresentationTimings array,
 and on return the variable is overwritten with the number of structures
-actually written to pname:pPresentationTimings. Elements of
-pname:pPresentationTimings are arranged in ascending order of present ids.
+actually written to pname:pPresentationTimings.
 If the value of pname:pPresentationTimingCount is less than the number of
 newly-available timing records, at most pname:pPresentationTimingCount
-structures will be written.
+structures are written.
 If pname:pPresentationTimingCount is smaller than the number of
 newly-available timing records for the given pname:swapchain,
-ename:VK_INCOMPLETE will be returned instead of ename:VK_SUCCESS to indicate
+ename:VK_INCOMPLETE is returned instead of ename:VK_SUCCESS to indicate
 that not all the available values were returned.
+Elements of pname:pPresentationTimings are arranged in ascending order of
+present ids.
+Upon return, zero or more slots of pname:swapchain internal timing queue, equal
+to the number of structures written to pname:pPresentationTimings, are made
+available for future fname:vkQueuePresentKHR calls.
 
 include::{generated}/validity/protos/vkGetPastPresentationTimingEXT.adoc[]
 --

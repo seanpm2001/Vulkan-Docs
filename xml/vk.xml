@@ -3126,6 +3126,11 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member><type>VkBool32</type>                         <name>presentAtAbsoluteTimeSupported</name><comment>surface can be presented using VkAbsolutePresentTimeEXT</comment></member>
             <member><type>VkBool32</type>                         <name>presentAtRelativeTimeSupported</name><comment>surface can be presented using VkRelativePresentTimeEXT</comment></member>
         </type>
+        <type category="struct" name="VkSwapchainPresentTimingCreateInfoEXT" structextends="VkSwapchainCreateInfoKHR">
+            <member values="VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_TIMING_CREATE_INFO_EXT"><type>VkStructureType</type> <name>sType</name></member>
+            <member optional="true">const <type>void</type>*      <name>pNext</name></member>
+            <member><type>uint32_t</type>                         <name>presentTimingQueueSize</name></member>
+        </type>
         <type category="struct" name="VkSwapchainTimingPropertiesEXT">
             <member values="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_PROPERTIES_EXT"><type>VkStructureType</type> <name>sType</name></member>
             <member optional="true">const <type>void</type>*      <name>pNext</name></member>
@@ -11414,7 +11419,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <param optional="true" externsync="true"><type>VkFence</type> <name>fence</name></param>
             <param><type>uint32_t</type>* <name>pImageIndex</name></param>
         </command>
-        <command successcodes="VK_SUCCESS,VK_SUBOPTIMAL_KHR" errorcodes="VK_ERROR_OUT_OF_HOST_MEMORY,VK_ERROR_OUT_OF_DEVICE_MEMORY,VK_ERROR_DEVICE_LOST,VK_ERROR_OUT_OF_DATE_KHR,VK_ERROR_SURFACE_LOST_KHR,VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT">
+        <command successcodes="VK_SUCCESS,VK_SUBOPTIMAL_KHR" errorcodes="VK_ERROR_OUT_OF_HOST_MEMORY,VK_ERROR_OUT_OF_DEVICE_MEMORY,VK_ERROR_DEVICE_LOST,VK_ERROR_OUT_OF_DATE_KHR,VK_ERROR_SURFACE_LOST_KHR,VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT,VK_ERROR_PRESENT_TIMING_QUEUE_FULL_EXT">
             <proto><type>VkResult</type> <name>vkQueuePresentKHR</name></proto>
             <param externsync="true"><type>VkQueue</type> <name>queue</name></param>
             <param externsync="pPresentInfo-&gt;pWaitSemaphores[],pPresentInfo-&gt;pSwapchains[]">const <type>VkPresentInfoKHR</type>* <name>pPresentInfo</name></param>
@@ -18563,16 +18568,19 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <enum value="&quot;VK_EXT_present_timing&quot;"         name="VK_EXT_PRESENT_TIMING_EXTENSION_NAME"/>
                 <enum offset="0" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_PROPERTIES_EXT"/>
                 <enum offset="1" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_SWAPCHAIN_TIME_DOMAIN_PROPERTIES_EXT"/>
-                <enum offset="2" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_INFO_EXT"/>
-                <enum offset="3" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_EXT"/>
-                <enum offset="4" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"/>
-                <enum offset="5" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"/>
-                <enum offset="6" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMING_SURFACE_CAPABILITIES_EXT"/>
+                <enum offset="2" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_TIMING_CREATE_INFO_EXT"/>
+                <enum offset="3" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_SWAPCHAIN_TIMING_INFO_EXT"/>
+                <enum offset="4" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_EXT"/>
+                <enum offset="5" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"/>
+                <enum offset="6" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"/>
+                <enum offset="7" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMING_SURFACE_CAPABILITIES_EXT"/>
                 <enum bitpos="4" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT"/>
                 <enum bitpos="5" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT"/>
                 <enum offset="0" extends="VkTimeDomainEXT"              name="VK_TIME_DOMAIN_SWAPCHAIN_LOCAL_EXT"/>
+                <enum offset="0" extends="VkResult" dir="-"             name="VK_ERROR_PRESENT_TIMING_QUEUE_FULL_EXT"/>
                 <type name="VkPhysicalDevicePresentTimingFeaturesEXT"/>
                 <type name="VkPresentTimingSurfaceCapabilitiesEXT"/>
+                <type name="VkSwapchainPresentTimingCreateInfoEXT"/>
                 <type name="VkSwapchainTimingPropertiesEXT"/>
                 <type name="VkSwapchainTimeDomainPropertiesEXT"/>
                 <type name="VkSwapchainTimingInfoEXT"/>

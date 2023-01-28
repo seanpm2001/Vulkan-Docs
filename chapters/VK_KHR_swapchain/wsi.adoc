@@ -566,6 +566,9 @@ ifdef::VK_EXT_image_compression_control_swapchain[]
 endif::VK_EXT_image_compression_control_swapchain[]
 endif::VK_EXT_image_compression_control[]
 ifdef::VK_EXT_present_timing[]
+  * If the <<features-presentTiming, pname:presentTiming>>
+    feature is not enabled, the pname:pNext chain must: not include an
+    slink:VkSwapchainPresentTimingCreateInfoEXT structure
   * If the <<features-presentAtAbsoluteTime, pname:presentAtAbsoluteTime>>
     feature is not enabled, pname:flags must: not contain
     ename:VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT
@@ -1356,6 +1359,16 @@ swapchain does not have exclusive full-screen access, possibly for
 implementation-specific reasons outside of the application's control.
 endif::VK_EXT_full_screen_exclusive[]
 
+ifdef::VK_EXT_present_timing[]
+For any pname:pSwapchains member of pname:pPresentInfo, if that swapchain has
+enabled the collection of presentation timings via
+flink:vkSetSwapchainTimingEXT, one entry of its internal timing queue is
+reserved until the results have been collected by
+flink:vkGetPastPresentationTimingEXT.
+ename:VK_ERROR_PRESENT_TIMING_QUEUE_FULL_EXT is returned if a swapchain is
+unable to reserve an entry in its queue.
+endif::VK_EXT_present_timing[]
+
 include::{generated}/validity/protos/vkQueuePresentKHR.adoc[]
 --
 
@@ -1606,6 +1619,11 @@ the following rules in order:
   * If any of the presents would have a result of
     ename:VK_ERROR_OUT_OF_DATE_KHR if issued separately then
     ename:VK_ERROR_OUT_OF_DATE_KHR is returned.
+ifdef::VK_EXT_present_timing[]
+  * If any of the presents would have a result of
+    ename:VK_ERROR_PRESENT_TIMING_QUEUE_FULL_EXT if issued separately
+    then ename:VK_ERROR_PRESENT_TIMING_QUEUE_FULL_EXT is returned.
+endif::VK_EXT_present_timing[]
 ifdef::VK_EXT_full_screen_exclusive[]
   * If any of the presents would have a result of
     ename:VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT if issued separately
