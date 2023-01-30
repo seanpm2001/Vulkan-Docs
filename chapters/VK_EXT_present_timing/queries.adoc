@@ -439,25 +439,7 @@ ename:VK_TRUE.
 It is also possible that an event can cause only
 pname:timingPropertiesChanged to become ename:VK_TRUE.
 ====
-
 --
-The full `VK_EXT_present_timing` extension semantics are only described for
-swapchains created with the following present modes:
-
-  * ename:VK_PRESENT_MODE_FIFO_KHR.
-    Tearing cannot be observed.
-    The first queued image is dequeued and presented if
-    both: 1) its associated wait semaphore(s) have signaled, and 2)
-    its target present time is less-than or equal-to the current time.
-  * ename:VK_PRESENT_MODE_FIFO_RELAXED_KHR.
-    For images that are presented in time to be displayed at the next
-    vertical blanking period, the semantics are identical as for
-    ename:VK_PRESENT_MODE_FIFO_RELAXED_KHR.
-    For images that are presented late, and are displayed after the start of
-    the vertical blanking period (i.e. with tearing), the values of
-    sname:VkPastPresentationTimingEXT may: be treated as if the image was
-    displayed at the start of the vertical blanking period, or may: be
-    treated the same as for ename:VK_PRESENT_MODE_IMMEDIATE_KHR.
 endif::VK_EXT_present_timing[]
 
 ifdef::VK_GOOGLE_display_timing[]
