@@ -43,13 +43,8 @@ endif::VK_GOOGLE_display_timing[]
 an application to satisfy these needs.
 
 The presentation engine's display typically refreshes the pixels that are
-displayed to the user on a periodic basis.
-The period may be fixed or variable.
-In many cases, the presentation engine is associated with fixed refresh rate
-(FRR) display technology, with a fixed refresh rate (RR, e.g. 60Hz).
-In some cases, the presentation engine is associated with variable refresh
-rate (VRR) display technology, where each refresh cycle (RC) can vary in
-length.
+displayed to the user on a periodic basis. This period may be fixed (Fixed
+Refresh Rate, FRR) or variable (Variable Refresh Rate, VRR).
 
 ifdef::VK_EXT_present_timing[]
 [open,refpage='VkSwapchainPresentTimingCreateInfoEXT',desc='Specify present timing properties to initialize a swapchain with',type='structs']
@@ -113,12 +108,11 @@ include::{generated}/api/structs/VkSwapchainTimingPropertiesEXT.adoc[]
 
 include::{generated}/validity/structs/VkSwapchainTimingPropertiesEXT.adoc[]
 
-Some platforms (e.g. Wayland) may: not provide timing properties until
-after at least one image has been presented to the pname:swapchain.
-If timing properties change for the pname:swapchain, these same
-platforms may: not provide updated results until after at least one
-additional image has been presented to the pname:swapchain.
-
+Some platforms may: not provide timing properties until after at least one
+image has been presented to the pname:swapchain. If timing properties
+change for the pname:swapchain, these same platforms may: not provide
+updated results until after at least one additional image has been
+presented to the pname:swapchain.
 
 --
 
@@ -367,30 +361,31 @@ returned once from fname:vkGetPastPresentationTimingEXT.
 The application can: use the sname:VkPastPresentationTimingEXT values to
 occasionally adjust its timing.
 
-An example is in order.
-If the system has a 60Hz FRR, and if the application’s IPD is
-currently 16.67ms (i.e. 60FPS), the application will set both
-slink:VkPresentTimeEXT::pname:targetPresentTime and
-slink:VkPresentTimeEXT::pname:idealPresentTime to 16.67ms after the
-same values that were used for the previous image.
-If sname:VkPastPresentationTimingEXT::pname:actualPresentTime and
+[NOTE]
+.Note
+====
+Consider the following example of a system with a 60Hz FRR. If the
+application's IPD is currently 16.67ms (i.e. 60FPS), the application will
+set both slink:VkPresentTimeEXT::pname:targetPresentTime and
+slink:VkPresentTimeEXT::pname:idealPresentTime to 16.67ms after the same
+values that were used for the previous image. If
+sname:VkPastPresentationTimingEXT::pname:actualPresentTime and
 sname:VkPastPresentationTimingEXT::pname:targetPresentTime are
-approximately equal to each other (e.g. less than 1ms different),
-and if this is the case for many consecutive images,
-the application knows that it is rendering smooth, and with no stutter.
-If sname:VkPastPresentationTimingEXT::pname:actualPresentTime is
-approximately 16.67 later than
-sname:VkPastPresentationTimingEXT::pname:targetPresentTime,
-the application knows that the image was presented late.
-The application can: then change the IPD to 33.33ms (i.e. 30FPS).
-It does this by setting both
+approximately equal to each other (e.g. less than 1ms different), and if
+this is the case for many consecutive images, the application knows that it
+is rendering smooth, and with no stutter. If
+sname:VkPastPresentationTimingEXT::pname:actualPresentTime is approximately
+16.67ms later than
+sname:VkPastPresentationTimingEXT::pname:targetPresentTime, the application
+knows that the image was presented late. The application can: then change
+the IPD to 33.33ms (i.e. 30FPS). It does this by setting both
 slink:VkPresentTimeEXT::pname:targetPresentTime and
-slink:VkPresentTimeEXT::pname:idealPresentTime to 33.33ms after the
-same values that were used for the previous image.
+slink:VkPresentTimeEXT::pname:idealPresentTime to 33.33ms after the same
+values that were used for the previous image.
 
-Later, if the application has been consistently presenting images on
-time with an IPD of 33.33ms, if the application desires to try an IPD
-of 16.67ms, it can: determine whether it is safe to do so.
+Later, if the application has been consistently presenting images
+on time with an IPD of 33.33ms, it can: determine whether it is
+safe to try an IPD of 16.67ms.
 It does this by setting slink:VkPresentTimeEXT::pname:idealPresentTime
 to 16.67ms earlier than
 slink:VkPresentTimeEXT::pname:targetPresentTime, which will continue
@@ -404,7 +399,8 @@ If the PE determines that it could have displayed the image at
 slink:VkPresentTimeEXT::pname:idealPresentTime, it will set
 pname:optimalPresentTime to
 slink:VkPresentTimeEXT::pname:idealPresentTime.
-If so, the application knows it is safe to change its IPD to 16.67ms.
+If so, the application knows it can: durably change its IPD to 16.67ms.
+====
 
 [NOTE]
 .Note
