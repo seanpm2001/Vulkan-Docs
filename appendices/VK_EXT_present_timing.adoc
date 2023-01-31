@@ -212,51 +212,41 @@ capture?
 9) Do we have a query(s) about the number of VkPastPresentationTimingEXT
 structs to keep?
 
-*UNRESOLVED*: At the Montreal F2F, there was discussion about how much
-feedback that the driver needs to keep and/or how much feedback that
-the application needs to be able to query.
+*PROPOSED*: Let the application specify at swapchain creation how many
+results the swapchain is allowed to store before querying them with
+vkGetPastPresentationTimingEXT.
 
-The way that the LunarG cube demo (official WSI example code) used
-VK_GOOGLE_display_timing, and what is proposed for the new extension is that
-the application query what feedback is available during every render-present
-loop.
-If the application never skips querying for feedback, and always obtains
-whatever feedback is available, there doesn’t seem much need for such a
-query(s).
-What I saw with the cube demo on a Pixel phone was that most of the time, the
-application obtained feedback for 1 previous present.
-Occasionally, it would get 2 VkPastPresentationTimingEXT structs on time and
-then 0 the next (or vice versa).
-
-Perhaps, a video player application might present several images at once, and
-then later get feedback for several images at the same time.
-That would be the most-likely use-case that I can come up with for why a query
-might be useful.
-Is that compelling enough?
-
-What might the model for the query(s) be?
-Potentially the application can tell the driver how many presents it might do
-at a time, and the driver can use that to size its internal buffer.
-Is there value in having a query that would influence the driver’s behavior
-(beyond what’s provided for in the currently-proposed API)?
 
 10) How is the SWAPCHAIN_LOCAL time domain used with the calibrated
 timestamps extension?
 
-PROPOSED: Define a struct to chain into VkCalibratedTimestampInfoEXT::pNext
+*PROPOSED*: Define a struct to chain into VkCalibratedTimestampInfoEXT::pNext
 that specifies a swapchain.
 Is anything additional needed for
 vkGetPhysicalDeviceCalibrateableTimeDomainsEXT, or are swapchain-local
 timestamps always calibrateable or always not calibrateable for a given
 device?
 
+
 11) Should VK_PRESENT_MODE_FIFO_LATEST_READY_EXT be part of this extension,
 or split out into its own extension?
 
-PROPOSED: It is only tangentially related.
+*RESOLVED*: It is only tangentially related.
 Split it out into its own extension and define the interaction here.
 
 === Version History
 
   * Revision 1, 2018-05-11 (Ian Elliott)
-  ** Internal revisions
+  ** Internal revisions.
+
+  * Revision 2, 2022-11-30 (Lionel Duc)
+  ** Major rebase.
+  ** Add physical device feature flags.
+  ** Rely on VK_KHR_present_id for present ids.
+  ** Resolve issue (11): remove VK_PRESENT_MODE_FIFO_LATEST_READY_EXT.
+  ** Add per-surface capabilities.
+
+  * Revision 3, 2023-01-31 (Lionel Duc)
+  ** Propose resolution to issue (9): let the application provide the queue size for the
+     pending results.
+  ** Add explicit interaction with VK_KHR_present_wait.
