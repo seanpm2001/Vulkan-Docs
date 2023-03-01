@@ -106,14 +106,13 @@ include::{generated}/api/structs/VkSwapchainTimingPropertiesEXT.adoc[]
     operating as a FRR display, or ename:VK_TRUE if the presentation
     engine is operating as a VRR display.
 
-include::{generated}/validity/structs/VkSwapchainTimingPropertiesEXT.adoc[]
-
 Some platforms may: not provide timing properties until after at least one
 image has been presented to the pname:swapchain. If timing properties
 change for the pname:swapchain, these same platforms may: not provide
 updated results until after at least one additional image has been
 presented to the pname:swapchain.
 
+include::{generated}/validity/structs/VkSwapchainTimingPropertiesEXT.adoc[]
 --
 
 [NOTE]
@@ -134,7 +133,7 @@ or 50.0ms (3X multiplier of pname:refreshDuration), etc.
 In order to determine a target IPD for a display (i.e. a multiple of
 pname:refreshDuration), an application needs to determine when its images
 are actually displayed.
-Let us say that an application has an initial target IPD of 16.67ms (1X
+Consider an application that has an initial target IPD of 16.67ms (1X
 multiplier of pname:refreshDuration).
 It will therefore position the geometry of a new image 16.67ms later than
 the previous image.
@@ -155,11 +154,9 @@ multiple, complex items in a room.
 In general, it is good to not frequently change IPD, as that can cause
 visual anomalies.
 Adjustments to a larger IPD because of late images should happen quickly,
-but adjustments to a smaller IPD should only happen if the
-pname:optimalPresentTime member of the
-slink:VkPastPresentationTimingEXT structure is consistently the same as the
-pname:idealPresentTime member of the
-slink:VkPresentTimeEXT structure over multiple images.
+but adjustments to a smaller IPD should only happen if the periodic
+feedback of slink:VkPastPresentationTimingEXT values indicates that the
+target IPD can be durably achieved.
 ====
 
 [open,refpage='vkGetSwapchainTimeDomainsEXT',desc='Obtain the time domain used by the PE for the swapchain',type='protos']
@@ -244,7 +241,6 @@ include::{generated}/api/structs/VkSwapchainTimingInfoEXT.adoc[]
     domain that should be used with the swapchain.
 
 include::{generated}/validity/structs/VkSwapchainTimingInfoEXT.adoc[]
-
 --
 
 [open,refpage='vkGetPastPresentationTimingEXT',desc='Obtain timing of a previously-presented image',type='protos']
@@ -321,23 +317,19 @@ include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
     not be presented any sooner than pname:targetPresentTime.
   * pname:actualPresentTime is the time when the image of the
     pname:swapchain was actually displayed.
-  * pname:optimalPresentTime is the time when the presentation engine (PE)
-    would have liked the application to have set pname:targetPresentTime to.
-    This allows the PE to provide feedback to the application-provided
-    slink:VkPresentTimeEXT::pname:idealPresentTime.
-    The PE may: set this to pname:actualPresentTime, to
-    slink:VkPresentTimeEXT::pname:idealPresentTime, or to some other
-    time based upon how the application is performing, the system load
-    and/or future clock settings, etc.
+  * pname:actualPresentCutoffTime is the time before which the image
+    of the pname:swapchain needed to be ready to be
+    presented at pname:actualPresentTime.
+  * pname:presentReadyTime is the time when the image of the
+    pname:swapchain was ready to be presented.
   * pname:timingPropertiesChanged is ename:VK_TRUE if the swapchain's
     timing properties have changed since the last time those
     properties were queried with
     flink:vkGetSwapchainTimingPropertiesEXT, otherwise the properties
     have not changed.
     If ename:VK_TRUE, an application must: not compare the values of
-    pname:actualPresentTime and pname:optimalPresentTime with any
-    other values, as the pname:presentation engine may not be able to
-    provide accurate values.
+    pname:actualPresentTime with any other values, as the
+    presentation engine may not be able to provide accurate values.
   * pname:timeDomainChanged is ename:VK_TRUE if the time domain enabled for
     the swapchain is not currently available.
     The application must: query what time domains are available and
@@ -349,69 +341,39 @@ include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
     In such a case, the presentation engine may: have multiple opaque
     time domains that it is switching between.
     If ename:VK_TRUE, an application must: not compare the values of
-    pname:actualPresentTime and pname:optimalPresentTime with any
-    other values, as the pname:presentation engine may not be able to
-    provide accurate values.
+    pname:actualPresentTime with any other values, as the
+    presentation engine may not be able to provide accurate values.
 
 include::{generated}/validity/structs/VkPastPresentationTimingEXT.adoc[]
 
 The results for a given pname:swapchain and present id are only
 returned once from fname:vkGetPastPresentationTimingEXT.
 
-The application can: use the sname:VkPastPresentationTimingEXT values to
-occasionally adjust its timing.
-
 [NOTE]
 .Note
 ====
-Consider the following example of a system with a 60Hz FRR. If the
-application's IPD is currently 16.67ms (i.e. 60FPS), the application will
-set both slink:VkPresentTimeEXT::pname:targetPresentTime and
-slink:VkPresentTimeEXT::pname:idealPresentTime to 16.67ms after the same
-values that were used for the previous image. If
-sname:VkPastPresentationTimingEXT::pname:actualPresentTime and
-sname:VkPastPresentationTimingEXT::pname:targetPresentTime are
-approximately equal to each other (e.g. less than 1ms different), and if
-this is the case for many consecutive images, the application knows that it
-is rendering smooth, and with no stutter. If
-sname:VkPastPresentationTimingEXT::pname:actualPresentTime is approximately
-16.67ms later than
-sname:VkPastPresentationTimingEXT::pname:targetPresentTime, the application
-knows that the image was presented late. The application can: then change
-the IPD to 33.33ms (i.e. 30FPS). It does this by setting both
-slink:VkPresentTimeEXT::pname:targetPresentTime and
-slink:VkPresentTimeEXT::pname:idealPresentTime to 33.33ms after the same
-values that were used for the previous image.
+An application can: determine its optimal IPD by using the
+sname:VkPastPresentationTimingEXT values.
 
-Later, if the application has been consistently presenting images
-on time with an IPD of 33.33ms, it can: determine whether it is
-safe to try an IPD of 16.67ms.
-It does this by setting slink:VkPresentTimeEXT::pname:idealPresentTime
-to 16.67ms earlier than
-slink:VkPresentTimeEXT::pname:targetPresentTime, which will continue
-to be set to 33.33ms after the
-slink:VkPresentTimeEXT::pname:targetPresentTime of the the previous
-image.
-In this way, the application continues to present images stutter-free,
-while requesting feedback from the PE as to whether it can still be
-stutter-free with an IPD of 16.67ms.
-If the PE determines that it could have displayed the image at
-slink:VkPresentTimeEXT::pname:idealPresentTime, it will set
-pname:optimalPresentTime to
-slink:VkPresentTimeEXT::pname:idealPresentTime.
-If so, the application knows it can: durably change its IPD to 16.67ms.
-====
+If pname:actualPresentTime is one or more refresh cycle durations later
+than pname:targetPresentTime, the application knows that the image was
+presented late. In order to avoid visual anomalies, it can: increase its
+IPD by a multiple of the refresh cycle duration that approximately
+corresponds to the difference between pname:actualPresentTime and
+pname:targetPresentTime.
 
-[NOTE]
-.Note
-====
+If pname:actualPresentTime and pname:targetPresentTime are consistently
+approximately equal to each other, the application knows that it is
+rendering smoothly, without stutter. In that situation, it can: determine
+if a lower IPD can be durably achieved by computing the difference between
+pname:actualPresentCutoffTime and pname:presentReadyTime over multiple
+frames. If the obtained duration is consistently larger than the difference
+between the current and the desired IPD, then the desired IPD is achievable
+without stutter.
+
 Frequent changes to an application's IPD can cause visual artifacts.
 Therefore, it is wise for an application to avoid frequent changes to
 its IPD.
-In the above example, before an application decreases its IPD, it will
-want to see several consecutive images all have
-pname:optimalPresentTime equal to
-slink:VkPresentTimeEXT::pname:idealPresentTime.
 ====
 
 [NOTE]
@@ -424,7 +386,7 @@ refresh rate of the display.
 Another example is if an application's surface is being composited
 with other windows of a window system, and then the surface's window
 becomes a borderless, full-screen window.
-While composited, the timing properties may be 60Hz FRR, and while
+While composited, the timing properties may be FRR, and while
 full-screen, the timing properties may be VRR.
 
 The available time domains for a swapchain may change for similar or

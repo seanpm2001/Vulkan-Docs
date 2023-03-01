@@ -92,18 +92,6 @@ include::{generated}/api/structs/VkAbsolutePresentTimeEXT.adoc[]
     time-domain being used.
     A value of zero specifies that the presentation engine may: display the
     image at any time.
-  * pname:idealPresentTime provides an indication to the presentation
-    engine of what the application desires its IPD to become.
-    An application can: set pname:idealPresentTime to the same value
-    as pname:targetPresentTime, indicating that the application
-    desires its IPD to remain steady.
-    A value earlier than
-    pname:targetPresentTime indicates that the application desires to
-    shorten its IPD.
-    A value later than pname:targetPresentTime
-    indicates that the application desires to lengthen its IPD.
-    The presentation engine will provide feedback on this value in the
-    data returned by flink:vkGetPastPresentationTimingEXT.
   * pname:presentSlop is the period of time in nanoseconds before
     pname:targetPresentTime that the presentation engine may: display
     the image.
@@ -141,18 +129,6 @@ include::{generated}/api/structs/VkRelativePresentTimeEXT.adoc[]
     user.
     A value of zero specifies that the presentation engine may: display the
     image for any duration.
-  * pname:idealPresentDuration provides an indication to the presentation
-    engine of what the application desires its IPD to become.
-    An application can: set pname:idealPresentDuration to the same value
-    as pname:minPresentDuration, indicating that the application
-    desires its IPD to remain steady.
-    A value smaller than
-    pname:minPresentDuration indicates that the application desires to
-    shorten its IPD.
-    A value larger than pname:minPresentDuration
-    indicates that the application desires to lengthen its IPD.
-    The presentation engine will provide feedback on this value in the
-    data returned by flink:vkGetPastPresentationTimingEXT.
   * pname:presentSlop is the period of time in nanoseconds before
     pname:minPresentDuration elapses that the presentation engine may:
     display the image.
