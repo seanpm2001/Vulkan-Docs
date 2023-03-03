@@ -3116,15 +3116,15 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member values="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"><type>VkStructureType</type> <name>sType</name></member>
             <member optional="true"><type>void</type>*            <name>pNext</name></member>
             <member><type>VkBool32</type>                         <name>presentTiming</name><comment>vkGetPastPresentationTimingEXT is supported</comment></member>
-            <member><type>VkBool32</type>                         <name>presentAtAbsoluteTime</name><comment>VkAbsolutePresentTimeEXT can be used to specify present time</comment></member>
-            <member><type>VkBool32</type>                         <name>presentAtRelativeTime</name><comment>VkRelativePresentTimeEXT can be used to specify present time</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtAbsoluteTime</name><comment>Absolute time can be used to specify present time</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtRelativeTime</name><comment>Relative time can be used to specify present duration</comment></member>
         </type>
         <type category="struct" name="VkPresentTimingSurfaceCapabilitiesEXT" structextends="VkSurfaceCapabilities2KHR">
             <member values="VK_STRUCTURE_TYPE_PRESENT_TIMING_SURFACE_CAPABILITIES_EXT"><type>VkStructureType</type> <name>sType</name></member>
             <member optional="true"><type>void</type>*            <name>pNext</name></member>
             <member><type>VkBool32</type>                         <name>presentTimingSupported</name><comment>presentation timings of the surface can be queries using vkGetPastPresentationTimingEXT</comment></member>
-            <member><type>VkBool32</type>                         <name>presentAtAbsoluteTimeSupported</name><comment>surface can be presented using VkAbsolutePresentTimeEXT</comment></member>
-            <member><type>VkBool32</type>                         <name>presentAtRelativeTimeSupported</name><comment>surface can be presented using VkRelativePresentTimeEXT</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtAbsoluteTimeSupported</name><comment>surface can be presented using absolute times</comment></member>
+            <member><type>VkBool32</type>                         <name>presentAtRelativeTimeSupported</name><comment>surface can be presented using relative times</comment></member>
         </type>
         <type category="struct" name="VkSwapchainPresentTimingCreateInfoEXT" structextends="VkSwapchainCreateInfoKHR">
             <member values="VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_TIMING_CREATE_INFO_EXT"><type>VkStructureType</type> <name>sType</name></member>
@@ -3164,17 +3164,9 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member><type>uint32_t</type>                         <name>swapchainCount</name><comment>Copy of VkPresentInfoKHR::swapchainCount</comment></member>
             <member len="swapchainCount" optional="true">const <type>VkPresentTimeEXT</type>*   <name>pTimes</name><comment>When to present images</comment></member>
         </type>
-        <type category="struct" name="VkAbsolutePresentTimeEXT">
-            <member><type>uint64_t</type>                         <name>targetPresentTime</name><comment>Earliest time an image should be presented</comment></member>
-            <member><type>uint64_t</type>                         <name>presentSlop</name><comment>Period of time an image may be presented before targetPresentTime</comment></member>
-        </type>
-        <type category="struct" name="VkRelativePresentTimeEXT">
-            <member><type>uint64_t</type>                         <name>minPresentDuration</name><comment>Shortest duration an image should be presented</comment></member>
-            <member><type>uint64_t</type>                         <name>presentSlop</name><comment>Period of time an image may be presented before minPresentDuration elapses</comment></member>
-        </type>
         <type category="union" name="VkPresentTimeEXT" comment="// Union allowing specification of either absolute or relative present time. Actual value selected is based on swapchain info.">
-            <member><type>VkAbsolutePresentTimeEXT</type>         <name>absolutePresentTime</name></member>
-            <member><type>VkRelativePresentTimeEXT</type>         <name>relativePresentTime</name></member>
+            <member><type>uint64_t</type>         <name>targetPresentTime</name></member>
+            <member><type>uint64_t</type>         <name>minPresentDuration</name></member>
         </type>
         <type category="struct" name="VkHdrMetadataEXT">
                 <comment>Display primary in chromaticity coordinates</comment>
@@ -18585,8 +18577,6 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <type name="VkSwapchainTimingInfoEXT"/>
                 <type name="VkPastPresentationTimingEXT"/>
                 <type name="VkPresentTimesInfoEXT"/>
-                <type name="VkAbsolutePresentTimeEXT"/>
-                <type name="VkRelativePresentTimeEXT"/>
                 <type name="VkPresentTimeEXT"/>
                 <command name="vkGetSwapchainTimingPropertiesEXT"/>
                 <command name="vkGetSwapchainTimeDomainsEXT"/>

@@ -5350,10 +5350,10 @@ This structure describes the following feature:
     implementation supports fname:vkGetPastPresentationTimingEXT.
   * [[features-presentAtAbsoluteTime]] pname:presentAtAbsoluteTime indicates
     that the implementation supports specifying present times with
-    sname:VkAbsolutePresentTimeEXT.
+    sname:VkPresentTimeEXT::pname:targetPresentTime.
   * [[features-presentAtRelativeTime]] pname:presentAtRelativeTime indicates
-    that the implementation supports specifying present times with
-    sname:VkRelativePresentTimeEXT.
+    that the implementation supports specifying relative present times with
+    sname:VkPresentTimeEXT::pname:minPresentDuration.
 
 :refpage: VkPhysicalDevicePresentTimingFeaturesEXT
 include::{chapters}/features.adoc[tag=features]

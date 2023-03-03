@@ -1047,11 +1047,11 @@ include::{generated}/api/structs/VkPresentTimingSurfaceCapabilitiesEXT.adoc[]
   * pname:presentAtAbsoluteTimeSupported indicates whether a swapchain 
     created from slink:VkPhysicalDeviceSurfaceInfo2KHR::pname:surface
     supports presenting images with absolute times using
-    slink:VkAbsolutePresentTimeEXT.
+    slink:VkPresentTimeEXT::pname:targetPresentTime.
   * pname:presentAtRelativeTimeSupported indicates whether a swapchain 
     created from slink:VkPhysicalDeviceSurfaceInfo2KHR::pname:surface
     supports presenting images with relative times using
-    slink:VkRelativePresentTimeEXT.
+    slink:VkPresentTimeEXT::pname:minPresentDuration.
 
 include::{generated}/validity/structs/VkPresentTimingSurfaceCapabilitiesEXT.adoc[]
 --

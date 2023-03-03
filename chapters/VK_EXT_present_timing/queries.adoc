@@ -28,7 +28,7 @@ presentation engine and its display.
 For example, applications can: determine information about the refresh
 rate of the display/compositor, can: specify when an image should be
 presented, and can: determine when an image was actually presented.
-This can allow the application's animation to look smooth to the user, with
+This allows the application's animation to look smooth to the user, with
 no stuttering.
 The
 ifdef::VK_EXT_present_timing+VK_GOOGLE_display_timing[]
@@ -43,7 +43,7 @@ endif::VK_GOOGLE_display_timing[]
 an application to satisfy these needs.
 
 The presentation engine's display typically refreshes the pixels that are
-displayed to the user on a periodic basis. This period may be fixed (Fixed
+displayed to the user on a periodic basis. This period may: be fixed (Fixed
 Refresh Rate, FRR) or variable (Variable Refresh Rate, VRR).
 
 ifdef::VK_EXT_present_timing[]
