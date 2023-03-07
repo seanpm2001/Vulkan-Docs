@@ -18558,7 +18558,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <command name="vkSignalSemaphoreKHR"/>
             </require>
         </extension>
-        <extension name="VK_EXT_present_timing" number="209" type="device" depends="VK_KHR_swapchain,VK_KHR_present_id,VK_KHR_get_surface_capabilities2" author="KHR" contact="Ian Elliott @ianelliott" supported="vulkan">
+        <extension name="VK_EXT_present_timing" number="209" type="device" depends="VK_KHR_swapchain,VK_KHR_present_id,VK_KHR_get_surface_capabilities2" author="EXT" contact="Ian Elliott @ianelliott" supported="vulkan">
             <require>
                 <enum value="3"                                         name="VK_EXT_PRESENT_TIMING_SPEC_VERSION"/>
                 <enum value="&quot;VK_EXT_present_timing&quot;"         name="VK_EXT_PRESENT_TIMING_EXTENSION_NAME"/>

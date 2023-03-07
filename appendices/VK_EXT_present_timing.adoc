@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Khronos Group.
+// Copyright (c) 2017-2023 Khronos Group.
 //
 // SPDX-License-Identifier: CC-BY-4.0
 
@@ -7,7 +7,7 @@ include::{generated}/meta/{refprefix}VK_EXT_present_timing.adoc[]
 === Other Extension Metadata
 
 *Last Modified Date*::
-    2022-11-10
+    2023-03-07
 *Interactions and External Dependencies*::
   - This extension requires `apiext:VK_KHR_swapchain`
   - This extension requires `apiext:VK_KHR_present_id`
@@ -27,6 +27,7 @@ include::{generated}/meta/{refprefix}VK_EXT_present_timing.adoc[]
   - Alon Or-Bach, Samsung
   - Niklas Smedberg, Unity Technologies
   - Tobias Hector, AMD
+  - Lionel Duc, NVIDIA
 
 === Description
 
@@ -68,7 +69,7 @@ pname:refreshDuration is non-zero, at which point the FRR vs. VRR
 indication will also be valid.
 
 If the presentation engine's pname:refreshDuration is a fixed value,
-the application's image present duration (IPD) must be a multiple of
+the application's image present duration (IPD) should be a multiple of
 pname:refreshDuration.
 That is, the quanta for changing the IPD is pname:refreshDuration.
 For example, if pname:refreshDuration is 16.67ms, the IPD can be
@@ -92,8 +93,6 @@ fixed; but can change over time.
 For example, if a full-screen video player application is visible, the display
 may operate at a 24Hz refresh cycle; and then later switch to 60Hz when
 multiple windows are visible.
-The special value of zero for pname:refreshDuration is used to
-indicate the condition where the platform cannot yet answer the query.
 
 VRR displays on some platforms can also be seen as having different
 characteristics over time.
@@ -103,11 +102,11 @@ display (however that is defined).
 If the application's window is not full-screen-exclusive (e.g. a normal
 multi-window case), the display can look like an FRR display (i.e. because the
 compositor is trying to treat all windows in a consistent manner).
-A different issue will deal with these how the timing characteristics
-can change over time.
+A different issue will deal with how the timing characteristics can change
+over time.
 
 
-2) Do we return min/max Values for Refresh Duration for VRR?
+2) Do we return min/max values for refresh duration for VRR?
 
 *PROPOSED*: return only the minimum value of refreshDuration for a VRR.
 
@@ -147,24 +146,23 @@ visible and VRR otherwise.
 4) One Query for all Timing info vs. an initial query to determine FRR vs. VRR,
 and then FRR-specific vs VRR-specific queries?
 
-*PROPOSED*: Have one query, as described in issue 1, that can be
+*RESOLVED*: Have one query, as described in issue 1, that can be
 called whenever the application needs to obtain the timing properties
 of the surface.
 
 
-5) Query to Determine Time Domain?
+5) Query to determine time domain?
 
-*PROPOSED*: Have a query to determine the time domain.
-This extension will define some return values, including some that are
-platform-specific.
-Other extensions can add other time domains.
+*RESOLVED*: Have a query to determine the time domain.
+This extension defines a basic swapchain-local time domain.
+Other extensions can add other platform-specific time domains.
 
 
-6) What Time to use for targetPresentTime for Early Images?
+6) What time to use for targetPresentTime for early images?
 
 *PROPOSED*: Have no query for determining the current time in the PE’s time
-domain; and do allow the special value of zero for targetPresentTime and
-idealPresentTime, meaning that there is no target nor ideal time.
+domain; and do allow the special value of zero for targetPresentTime,
+meaning that there is no target.
 
 On some platforms, there is no way to determine the current time, nor
 to determine surface timing properties until after at least one image
@@ -172,9 +170,9 @@ has been presented.
 
 In such cases, the special value of zero allows the application to
 indicate that timing feedback is desired, but that no
-targetPresentTime nor idealPresentTime is requested.
+targetPresentTime is requested.
 Later, once the application has obtained feedback, it can specify
-targetPresentTime and idealPresentTime.
+targetPresentTime by using the results actualPresentTime.
 
 
 7) How long before an application’s request for new image duration is honored?
@@ -202,11 +200,9 @@ For higher-frequency displays, the latency may have a larger number of refresh
 cycles.
 
 Is there value in having a query for the application to know how long it may
-have to wait for feedback?
-Can such a query be reasonably answered by the driver?
-
-Is there other interesting information in this space that we may wish to
-capture?
+have to wait for feedback? Can such a query be reasonably answered by the
+driver? Is there other interesting information in this space that we may
+wish to capture?
 
 
 9) Do we have a query(s) about the number of VkPastPresentationTimingEXT
