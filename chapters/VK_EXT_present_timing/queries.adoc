@@ -247,7 +247,7 @@ include::{generated}/validity/structs/VkSwapchainTimingInfoEXT.adoc[]
 --
 
 The implementation maintains a limited amount of history of timing
-information about previous presents, specified by 
+information about previous presents, specified by
 sname:VkSwapchainPresentTimingCreateInfoEXT::pname:presentTimingQueueSize
 when creating a swapchain.
 Because of the asynchronous nature of the presentation engine, the timing
@@ -315,11 +315,17 @@ include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
     slink:VkPresentTimeEXT::pname:targetPresentTime.
     If non-zero, it was used by the application to indicate that an image
     not be presented any sooner than pname:targetPresentTime.
+    If the pname:swapchain is using relative present times, it is zero and
+    the actual present duration can: be obtained by comparing the
+    pname:actualPresentTime results of consecutive presents.
   * pname:actualPresentTime is the time when the image of the
-    pname:swapchain was actually displayed.
-  * pname:actualPresentCutoffTime is the time before which the image
-    of the pname:swapchain needed to be ready to be
-    presented at pname:actualPresentTime.
+    pname:swapchain was actually displayed, when the first pixel of
+    the image was made visible to the user. It may: be zero if the
+    implementation was unable to determine an accurate time, or if the
+    presentation engine discarded the present request.
+  * pname:actualPresentCutoffTime is the time before which the image of the
+    pname:swapchain needed to be ready to be eligible to be presented at
+    pname:actualPresentTime. It is zero if pname:actualPresentTime is zero.
   * pname:presentReadyTime is the time when the image of the
     pname:swapchain was ready to be presented.
   * pname:timingPropertiesChanged is ename:VK_TRUE if the swapchain's
@@ -333,7 +339,7 @@ include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
   * pname:timeDomainChanged is ename:VK_TRUE if the time domain enabled for
     the swapchain is not currently available.
     The application must: query what time domains are available and
-    enable display timing with a currently-available time domain.
+    enable present timing with a currently-available time domain.
     If the currently-enabled time domain is the opaque domain of
     ename:VK_TIME_DOMAIN_SWAPCHAIN_LOCAL_EXT, it is possible that
     ename:VK_TIME_DOMAIN_SWAPCHAIN_LOCAL_EXT will be returned by
@@ -344,10 +350,10 @@ include::{generated}/api/structs/VkPastPresentationTimingEXT.adoc[]
     pname:actualPresentTime with any other values, as the
     presentation engine may not be able to provide accurate values.
 
-include::{generated}/validity/structs/VkPastPresentationTimingEXT.adoc[]
-
 The results for a given pname:swapchain and present id are only
 returned once from fname:vkGetPastPresentationTimingEXT.
+
+include::{generated}/validity/structs/VkPastPresentationTimingEXT.adoc[]
 
 [NOTE]
 .Note
@@ -365,13 +371,13 @@ pname:targetPresentTime.
 If pname:actualPresentTime and pname:targetPresentTime are consistently
 approximately equal to each other, the application knows that it is
 rendering smoothly, without stutter. In that situation, it can: determine
-if a lower IPD can be durably achieved by computing the difference between
+if a lower IPD could be durably achieved by computing the difference between
 pname:actualPresentCutoffTime and pname:presentReadyTime over multiple
 frames. If the obtained duration is consistently larger than the difference
 between the current and the desired IPD, then the desired IPD is achievable
 without stutter.
 
-Frequent changes to an application's IPD can cause visual artifacts.
+Frequent changes to an application's IPD can: cause visual artifacts.
 Therefore, it is wise for an application to avoid frequent changes to
 its IPD.
 ====
@@ -379,22 +385,22 @@ its IPD.
 [NOTE]
 .Note
 ====
-The presentation engine may change the timing properties of the
+The presentation engine may: change the timing properties of the
 pname:swapchain for a variety of reasons.
 For example, if the window system changes its mode, including the
 refresh rate of the display.
 Another example is if an application's surface is being composited
 with other windows of a window system, and then the surface's window
 becomes a borderless, full-screen window.
-While composited, the timing properties may be FRR, and while
-full-screen, the timing properties may be VRR.
+While composited, the timing properties may: be FRR, and while
+full-screen, the timing properties may: be VRR.
 
-The available time domains for a swapchain may change for similar or
+The available time domains for a swapchain may: change for similar or
 identical reasons.
 Therefore, it is possible that the same event will cause both
 pname:timingPropertiesChanged and pname:timeDomainChanged to become
 ename:VK_TRUE.
-It is also possible that an event can cause only
+It is also possible that an event can: cause only
 pname:timingPropertiesChanged to become ename:VK_TRUE.
 ====
 --
