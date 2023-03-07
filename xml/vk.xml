@@ -3168,6 +3168,11 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member><type>uint64_t</type>         <name>targetPresentTime</name></member>
             <member><type>uint64_t</type>         <name>minPresentDuration</name></member>
         </type>
+        <type category="struct" name="VkSwapchainCalibratedTimestampInfoEXT" structextends="VkCalibratedTimestampInfoEXT">
+            <member values="VK_STRUCTURE_TYPE_SWAPCHAIN_CALIBRATED_TIMESTAMP_INFO_EXT"><type>VkStructureType</type> <name>sType</name></member>
+            <member optional="true">const <type>void</type>*      <name>pNext</name></member>
+            <member externsync="true"><type>VkSwapchainKHR</type> <name>swapchain</name></member>
+        </type>
         <type category="struct" name="VkHdrMetadataEXT">
                 <comment>Display primary in chromaticity coordinates</comment>
             <member values="VK_STRUCTURE_TYPE_HDR_METADATA_EXT"><type>VkStructureType</type> <name>sType</name></member>
@@ -18565,12 +18570,14 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <enum offset="5" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PAST_PRESENTATION_TIMING_EXT"/>
                 <enum offset="6" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_TIMING_FEATURES_EXT"/>
                 <enum offset="7" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_PRESENT_TIMING_SURFACE_CAPABILITIES_EXT"/>
-                <enum bitpos="4" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT"/>
-                <enum bitpos="5" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT"/>
+                <enum offset="8" extends="VkStructureType"              name="VK_STRUCTURE_TYPE_SWAPCHAIN_CALIBRATED_TIMESTAMP_INFO_EXT"/>
+                <enum bitpos="5" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_ABSOLUTE_TIME_BIT_EXT"/>
+                <enum bitpos="6" extends="VkSwapchainCreateFlagBitsKHR" name="VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT"/>
                 <enum offset="0" extends="VkTimeDomainEXT"              name="VK_TIME_DOMAIN_SWAPCHAIN_LOCAL_EXT"/>
                 <enum offset="0" extends="VkResult" dir="-"             name="VK_ERROR_PRESENT_TIMING_QUEUE_FULL_EXT"/>
                 <type name="VkPhysicalDevicePresentTimingFeaturesEXT"/>
                 <type name="VkPresentTimingSurfaceCapabilitiesEXT"/>
+                <type name="VkSwapchainCalibratedTimestampInfoEXT"/>
                 <type name="VkSwapchainPresentTimingCreateInfoEXT"/>
                 <type name="VkSwapchainTimingPropertiesEXT"/>
                 <type name="VkSwapchainTimeDomainPropertiesEXT"/>
