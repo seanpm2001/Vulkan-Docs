@@ -1041,8 +1041,8 @@ include::{generated}/api/structs/VkPresentTimingSurfaceCapabilitiesEXT.adoc[]
   * pname:sType is the type of this structure.
   * pname:pNext is `NULL` or a pointer to a structure extending this
     structure.
-  * pname:presentTimingSupported indicates whether present timing is
-    supported for a swapchain created from
+  * pname:presentTimingSupported indicates whether querying presentation
+    timestamps is supported for a swapchain created from
     slink:VkPhysicalDeviceSurfaceInfo2KHR::pname:surface.
   * pname:presentAtAbsoluteTimeSupported indicates whether a swapchain 
     created from slink:VkPhysicalDeviceSurfaceInfo2KHR::pname:surface

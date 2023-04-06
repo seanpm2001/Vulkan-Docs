@@ -31,16 +31,14 @@ presented, and can: determine when an image was actually presented.
 This allows the application's animation to look smooth to the user, with
 no stuttering.
 The
-ifdef::VK_EXT_present_timing+VK_GOOGLE_display_timing[]
-`VK_EXT_present_timing` and `VK_GOOGLE_display_timing` extensions allow
-endif::VK_EXT_present_timing+VK_GOOGLE_display_timing[]
 ifdef::VK_EXT_present_timing[]
-`VK_EXT_present_timing` extension allows
+`VK_EXT_present_timing`
 endif::VK_EXT_present_timing[]
+ifdef::VK_EXT_present_timing+VK_GOOGLE_display_timing[or]
 ifdef::VK_GOOGLE_display_timing[]
-`VK_GOOGLE_display_timing` extension allows
+`VK_GOOGLE_display_timing`
 endif::VK_GOOGLE_display_timing[]
-an application to satisfy these needs.
+extension allows an application to satisfy these needs.
 
 The presentation engine's display typically refreshes the pixels that are
 displayed to the user on a periodic basis. This period may: be fixed (Fixed

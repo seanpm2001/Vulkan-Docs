@@ -3122,7 +3122,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
         <type category="struct" name="VkPresentTimingSurfaceCapabilitiesEXT" structextends="VkSurfaceCapabilities2KHR">
             <member values="VK_STRUCTURE_TYPE_PRESENT_TIMING_SURFACE_CAPABILITIES_EXT"><type>VkStructureType</type> <name>sType</name></member>
             <member optional="true"><type>void</type>*            <name>pNext</name></member>
-            <member><type>VkBool32</type>                         <name>presentTimingSupported</name><comment>presentation timings of the surface can be queries using vkGetPastPresentationTimingEXT</comment></member>
+            <member><type>VkBool32</type>                         <name>presentTimingSupported</name><comment>presentation timings of the surface can be queried using vkGetPastPresentationTimingEXT</comment></member>
             <member><type>VkBool32</type>                         <name>presentAtAbsoluteTimeSupported</name><comment>surface can be presented using absolute times</comment></member>
             <member><type>VkBool32</type>                         <name>presentAtRelativeTimeSupported</name><comment>surface can be presented using relative times</comment></member>
         </type>
@@ -18558,7 +18558,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <command name="vkSignalSemaphoreKHR"/>
             </require>
         </extension>
-        <extension name="VK_EXT_present_timing" number="209" type="device" depends="VK_KHR_swapchain,VK_KHR_present_id,VK_KHR_get_surface_capabilities2" author="EXT" contact="Ian Elliott @ianelliott" supported="vulkan">
+        <extension name="VK_EXT_present_timing" number="209" type="device" depends="VK_KHR_swapchain+VK_KHR_present_id+VK_KHR_get_surface_capabilities2" author="EXT" contact="Ian Elliott @ianelliott" supported="vulkan">
             <require>
                 <enum value="3"                                         name="VK_EXT_PRESENT_TIMING_SPEC_VERSION"/>
                 <enum value="&quot;VK_EXT_present_timing&quot;"         name="VK_EXT_PRESENT_TIMING_EXTENSION_NAME"/>
