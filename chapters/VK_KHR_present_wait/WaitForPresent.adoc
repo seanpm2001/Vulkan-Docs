@@ -57,14 +57,6 @@ flink:vkDestroySwapchainKHR.
 Access to the swapchain data associated with this extension must: be atomic
 within the implementation.
 
-ifdef::VK_EXT_present_timing[]
-If the <<features-presentTiming, pname:presentTiming>> feature is enabled,
-and present timing collection has been enabled on pname:swapchain, calling
-fname:vkWaitForPresentKHR guarantees that the present timing results
-associated with pname:presentId are available to be collected by
-flink:vkGetPastPresentationTimingEXT.
-endif::VK_EXT_present_timing[]
-
 .Valid Usage
 ****
   * [[VUID-vkWaitForPresentKHR-swapchain-04997]]

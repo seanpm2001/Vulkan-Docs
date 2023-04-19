@@ -34,7 +34,7 @@ include::{generated}/api/structs/VkPresentTimesInfoEXT.adoc[]
     time or the minimum present duration for the image corresponding to the
     entry in the sname:VkPresentInfoKHR::pname:pImageIndices array.
 
-The semantics of a specified present time or duration only apply to
+The semantics of a specified target present time or duration only apply to
 the following present modes:
 
   * ename:VK_PRESENT_MODE_FIFO_KHR.
@@ -80,16 +80,13 @@ The sname:VkPresentTimeEXT union is defined as:
 include::{generated}/api/structs/VkPresentTimeEXT.adoc[]
 
   * pname:targetPresentTime, if non-zero, specifies the earliest time the
-    application wants the image to be displayed to the user.
-    pname:targetPresentTime is a time in nanoseconds, according to the
-    time-domain being used.
+    application wants the image to complete the swapchain's target present
+    stage. A value of zero specifies that the presentation engine may:
+    display the image at any time allowed by the current present mode.
+  * pname:minPresentDuration, if non-zero, specifies the minimum duration in
+    nanoseconds the application wants the image to be displayed to the user.
     A value of zero specifies that the presentation engine may: display the
-    image at any time.
-  * pname:minPresentDuration, if non-zero, specifies the minimum duration
-    in nanoseconds the application wants the image to be displayed to the
-    user.
-    A value of zero specifies that the presentation engine may: display the
-    image for any duration.
+    image for any duration allowed by the current present mode.
 
 The contents of the sname:VkPresentTimeEXT union is interpreted depending on
 the associated sname:VkPresentInfoKHR::pname:pSwapchains member creation
@@ -98,24 +95,64 @@ the pname:swapchain, pname:targetPresentTime is used. If
 ename:VK_SWAPCHAIN_CREATE_RELATIVE_TIME_BIT_EXT was used to create the
 pname:swapchain, pname:minPresentDuration is used.
 
-If pname:targetPresentTime is non-zero, the presentation engine should:
-not display the image to the user at a time earlier than
-pname:targetPresentTime.
-
-If pname:minPresentDuration is non-zero, the presentation engine should:
-display the image to the user for a minimum duration of
-pname:minPresentDuration nanoseconds.
+pname:targetPresentTime is a time in nanoseconds, according to the
+time-domain being used. The presentation engine must: not complete the
+target present stage, specified in the associated swapchain
+slink:VkSwapchainPresentTimingCreateInfoEXT::pname:presentStageTarget, at an
+earlier time.
 
 [NOTE]
 .Note
 ====
 Applications that use pname:targetPresentTime to specify an absolute present
 time should: regularly rebase their calculations for their next target time
-on the feedback from fname:vkGetPastPresentationTimingEXT to compensate for
+on the feedback from flink:vkGetPastPresentationTimingEXT to compensate for
 accumulated precision errors or potential clock drift. It is recommended
 that when targeting the time of a vertical blanking period, applications
 subtract a small delta from pname:targetPresentTime as a margin for error.
 ====
 
 include::{generated}/validity/structs/VkPresentTimeEXT.adoc[]
+--
+
+[open,refpage='VkPresentStageTimeEXT',desc='Associate a present stage with a timestamp',type='structs']
+--
+The sname:VkPresentStageTimeEXT structure is defined as:
+
+include::{generated}/api/structs/VkPresentStageTimeEXT.adoc[]
+
+  * pname:stage is a tlink:VkPresentStageFlagsEXT value specifying a present stage.
+  * pname:time is a time in nanoseconds associated with the pname:stage.
+
+include::{generated}/validity/structs/VkPresentStageTimeEXT.adoc[]
+--
+
+[open,refpage='VkPresentStageFlagBitsEXT',desc='Bitmask specifying stages of the image presentation process',type='enums']
+--
+
+Presenting an image to the user typically involves multiple stages. Bits
+which can: be set to specify present stages are:
+
+include::{generated}/api/enums/VkPresentStageFlagBitsEXT.adoc[]
+
+  * ename:VK_PRESENT_STAGE_IMAGE_HANDOFF_BIT_EXT is the stage after which the
+    presentation engine has passed the presentation request of the image to
+    a system-specific entity that is outside the control of the Vulkan
+    implementation. This stage is the only ename:VkPresentStageFlagBitsEXT
+    that is required: to be supported.
+  * ename:VK_PRESENT_STAGE_IMAGE_LATCHED_BIT_EXT is the stage after which the
+    image has been latched by a downstream entity, such as a compositor, and
+    scheduled to be presented to the user.
+  * ename:VK_PRESENT_STAGE_IMAGE_FIRST_PHOTON_BIT_EXT is the stage after which
+    a display hardware has started emitting light for the presentation
+    request associated with the image to be presented.
+
+--
+
+[open,refpage='VkPresentStageFlagsEXT',desc='Bitmask of VkPresentStageFlagBitsEXT',type='flags']
+--
+include::{generated}/api/flags/VkPresentStageFlagsEXT.adoc[]
+
+tname:VkPresentStageFlagsEXT is a bitmask type for setting a mask of zero or
+more elink:VkPresentStageFlagBitsEXT.
 --
